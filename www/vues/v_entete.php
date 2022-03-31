@@ -29,10 +29,13 @@
     <body>
         <div class="container">
             <?php
+            $estVisiteurConnecte = estVisiteurConnecte();
+            $estComptableConnecte = estComptableConnecte();
+
             $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
-            if ($estConnecteVisiteur) {
+            if ($estVisiteurConnecte) {
                 ?>
-            <div class="header">
+                <div class="header">
                 <div class="row vertical-align">
                     <div class="col-md-4">
                         <h1>
@@ -72,10 +75,12 @@
                     </div>
                 </div>
             </div>
-             <?php
-            }elseif ($estConnecteComptable) {
-                ?>
-            <div class="header">
+            
+            <?php
+            
+            } elseif ($estComptableConnecte){
+                ?>   
+                <div class="header">
                 <div class="row vertical-align">
                     <div class="col-md-4">
                         <h1>
@@ -92,14 +97,15 @@
                                     Accueil
                                 </a>
                             </li>
-                            <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=validerfrais&action=">
+                            <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=validerFrais&action=choisirVisiteursEtMois">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     Valider fiche de frais
+                                   
                                 </a>
                             </li>
-                            <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=suivrepaiement&action=">
+                            <li <?php if ($uc == 'suiviPaiement') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=suiviPaiement&action=choixFiche">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Suivre paiement fiche de frais
                                 </a>
@@ -115,16 +121,14 @@
                     </div>
                 </div>
             </div>
-            
-            <?php
-            
-            } else {
-                ?>   
-                <h1>
+            <?php   
+            }else {
+                ?>
+            <h1>
                     <img src="./images/logo.jpg"
                          class="img-responsive center-block"
                          alt="Laboratoire Galaxy-Swiss Bourdin"
                          title="Laboratoire Galaxy-Swiss Bourdin">
-                </h1>
-                <?php
+            </h1>
+            <?php
             }

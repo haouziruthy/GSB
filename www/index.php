@@ -21,8 +21,6 @@ require_once 'includes/class.pdogsb.inc.php';
 session_start();// FONCTION qui demarre la super globale session (variable qui peut jongler entre les differentes pages)
 $pdo = PdoGsb::getPdoGsb(); // variable:avec un dollar devant pdo: variable, on lui affecte le resultat de la methode getPdoGsb()qui est dans la classe PdoGsb
 $estConnecte = estConnecte();
-$estConnecteVisiteur = estConnecteVisiteur();
-$estConnecteComptable = estConnecteComptable();
 require 'vues/v_entete.php';
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
 if ($uc && !$estConnecte) { 
@@ -43,14 +41,15 @@ case 'gererFrais':
 case 'etatFrais':
     include 'controleurs/c_etatFrais.php';
     break;
-case 'validerfrais':
+case 'validerFrais':
     include'controleurs/c_validerFrais.php';
     break;
-case 'suivrepaiement':
-    include 'controleurs/c_suivrePaiement.php';
+case 'suiviPaiement':
+    include 'controleurs/c_suiviPaiement.php';
     break;
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
 }
+
 require 'vues/v_pied.php';

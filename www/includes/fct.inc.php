@@ -15,49 +15,45 @@
  */
 
 /**
- * Teste si un quelconque visiteur est connecté
- *
- * @return vrai ou faux
- */
+* Teste si un quelconque visiteur est connecté
+*
+* @return vrai ou faux
+*/
 function estConnecte()
 {
-    return isset($_SESSION['idVisiteur']);// isset: vraie ou faux, session c'est comme un tableau on regarde est ce que idvisteur est remplie. 
-    return isset($_SESSION['idComptable']);
-    
+  return isset($_SESSION['idUtilisateur']);// est ce qu'il ya un id dans la super global session
 }
 
-function estConnecteVisiteur()
+function estVisiteurConnecte()
 {
-    return isset($_SESSION['idVisiteur']);// isset: vraie ou faux, session c'est comme un tableau on regarde est ce que idvisteur est remplie. 
-  
+  if (estConnecte()){
+      return ($_SESSION['statut']== 'visiteur');
+  }  
 }
 
-function estConnecteComptable()
+function estComptableConnecte()
 {
-    return isset($_SESSION['idComptable']);
-    
+  if (estConnecte()){
+      return ($_SESSION['statut']== 'comptable');
+  }  
 }
+
+
 /**
- * Enregistre dans une variable session les infos d'un visiteur
- *
- * @param String $idVisiteur ID du visiteur
- * @param String $nom        Nom du visiteur
- * @param String $prenom     Prénom du visiteur
- *
- * @return null
- */
-function connecterVisiteur($idVisiteur, $nom, $prenom)
+* Enregistre dans une variable session les infos d'un visiteur
+*
+* @param String $idVisiteur ID du visiteur
+* @param String $nom        Nom du visiteur
+* @param String $prenom     Prénom du visiteur
+*
+* @return null
+*/
+function connecter($idUtilisateur, $nom, $prenom, $statut)
 {
-    $_SESSION['idVisiteur'] = $idVisiteur;
-    $_SESSION['nom'] = $nom;
-    $_SESSION['prenom'] = $prenom;
-}
-
-function connecterComptable($idComptable, $nom, $prenom)
-{
-    $_SESSION['idComptable'] = $idComptable;
-    $_SESSION['nom'] = $nom;
-    $_SESSION['prenom'] = $prenom;
+  $_SESSION['idUtilisateur'] = $idUtilisateur;
+  $_SESSION['nom'] = $nom;
+  $_SESSION['prenom'] = $prenom;
+  $_SESSION['statut'] = $statut;
 }
 
 /**
@@ -266,4 +262,47 @@ function nbErreurs()
     } else {
         return count($_REQUEST['erreurs']);
     }
+}
+
+/**
+ * Fonction qui retourne le mois précédent un mois passé en paramètre
+ *
+ * @param String $mois Contient le mois à utiliser
+ *
+ * @return String le mois d'avant
+ */
+function getMoisPrecedent($mois){
+    $numAnnee = substr($mois, 0, 4);
+    $numMois = substr($mois, 4, 2);
+    if($numMois=='01'){
+        $numMois='12';
+        $numAnnee--;
+    }
+    else{
+        $numMois--;
+    }
+     if (strlen($numMois) == 1) {//strlen=verifie le nombre de caractères. Ex:si mois=6, on va mettre 06.
+        $numMois = '0' . $numMois;
+        }
+    return $numAnnee.$numMois;
+}
+/**
+ * Fonction qui retourne les 12 derniers mois
+ *
+ * @param String $mois   Contient le mois à utiliser
+ * @return String        Les 12 mois d'avant
+ */
+function getLesDouzeDerniersMois($mois){
+    $lesMois= array();
+    for ($k=0;$k<=12;$k++){
+        $mois= getMoisPrecedent($mois);
+        $numAnnee = substr($mois,0,4);
+        $numMois = substr($mois,4,2);
+        $lesMois [] = array(
+            'mois'=>$mois,
+            'numMois'=> $numMois,
+            'numAnnee'=> $numAnnee
+        );
+    }
+    return $lesMois;
 }

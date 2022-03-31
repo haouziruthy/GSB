@@ -15,7 +15,7 @@
  */
 
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
-$idVisiteur = $_SESSION['idVisiteur'];
+$idVisiteur = $_SESSION['idUtilisateur'];
 switch ($action) {
 case 'selectionnerMois':
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
@@ -27,10 +27,10 @@ case 'selectionnerMois':
     include 'vues/v_listeMois.php';
     break;
 case 'voirEtatFrais':
-    $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);//on recupere ce qui a ete selectionné ds la liste deroulante de nummois(qui se trouve dans v_listemois).
     $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
     $moisASelectionner = $leMois;
-    include 'vues/v_listeMois.php';
+    include 'vues/v_listeMois.php';//ca affiche la liste deroulante.
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
